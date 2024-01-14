@@ -1,8 +1,7 @@
-# **Deep pagination using search_after & Point in Time (PIT)**
+# Deep pagination using search_after and Point in Time (PIT)
 
-
-## Context
-* At $work, I was tasked to build a feature that required fetching existing data from more than 10,000 documents and then reindexing these documents across a few indices in Elasticsearch.
+### Context
+* At `$work`, I was tasked to build a feature that required fetching existing data from more than 10,000 documents and then reindexing these documents across a few indices in Elasticsearch.
 
 * However we know that Elasticsearch has a traditional limit of 10,000 hits being fetched in a single query to [safeguard the memory and CPU usage](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#:~:text=For%20deep%20pages%20or%20large,safeguard%20set%20by%20the%20index).
 
@@ -11,7 +10,7 @@
 In this blog post, we talk abit more about the solution provided by Elasticsearch - which is using Search After and Point In Time.
 
 
-## Search After and Point In Time (PIT)
+### Search After and Point In Time (PIT)
 - A search request by default executes against the most recent visible data of target indices
 - A PIT is a lightweight view into the state of the data when initiated
 - If multiple search requests were made and there are refreshes that happened between search_after requests, the results might be inconsistent
@@ -29,7 +28,7 @@ In this blog post, we talk abit more about the solution provided by Elasticsearc
     - It does not accumulate the time for each subsequent request
 
 
-## What is happening underneath the hood with `Point In Time` and `Refresh`?
+### What is happening underneath the hood with `Point In Time` and `Refresh`?
 
 - Normally the background merge process optimizes the index by merging together smaller segments to create new bigger segments.
 - Once the smaller segments are no longer needed they are deleted
@@ -50,7 +49,7 @@ In this blog post, we talk abit more about the solution provided by Elasticsearc
     - Recommended to turn off merging of segments when doing bulk indexing
 - Elastic Search also balances the shards periodically.
 
-## **Index Operation Delay**
+### Index Operation Delay
 
 - When I wrote an integration test for an index operation, I noticed that tests would fail because the information has not be reflected in the index yet
 - Putting a 1 or 2-second sleep between indexing and a search request will make it work consistently but that would mean slowing down our tests
@@ -94,12 +93,13 @@ PUT /test/_doc/1?refresh=true|false|wait_for
     - Turning off merge when doing bulk indexing
         - Source: https://thoughts.t37.net/designing-the-perfect-elasticsearch-cluster-the-almost-definitive-guide-e614eabc1a87
         - `GET /_cat/thread_pool/search?v&h=host,name,active,rejected,completed`
+
     - Increase or disable refresh rate
         - https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-update-settings.html
 
 
-Overall it was an interesting exercise deep diving (no pun intended hehe) into search after and how it works. Hopefully you might find this small post somewhat helpful when thinking about deep pagination in Elasticsearch.
+Overall it was an interesting exercise deep diving (no pun intended hehe) into `search after` and how it works. Hopefully you might find this small post somewhat helpful when thinking about deep pagination in Elasticsearch.
 
-References
+References:
 - https://www.elastic.co/guide/en/elasticsearch/reference/current/point-in-time-api.html
 - https://levelup.gitconnected.com/elastic-search-simplified-part-2-342a55a1a7c7
