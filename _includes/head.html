@@ -20,5 +20,14 @@
   <script type="text/javascript" src="/js/highlightjs/languages/tsql.min.js"></script>
 
   <script type="text/javascript"> hljs.highlightAll(); </script>
+  <script src="//unpkg.com/darkreader@4.9.75/darkreader.js"></script>
+  <script type="text/javascript">
+    DarkReader.setFetchMethod(window.fetch); // Fix to remedy CORS errors in chrome console
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 0
+    });
+  </script>
   <!-- end highlight.js support -->
 </head>
