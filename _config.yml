@@ -32,6 +32,8 @@ titles_from_headings:
   strip_title: true
   collections: true
 
+comments_repo: jcleow/jcleow.github.io
+
 defaults:
   - scope:
       path: ""
