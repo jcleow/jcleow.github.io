@@ -20,8 +20,10 @@ linkedin_username: "jitcorn"
 #########################################################################################
 theme: "minima"
 
+# Disable to use highlighter.js instead
 kramdown:
-  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    disable: true
 
 plugins:
   - jekyll-feed

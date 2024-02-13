@@ -1,5 +1,6 @@
 ## Understanding pytest-xdist
 
+* TOC{:toc}
 ### A. Preface
 Over at `$work` we have been using alot of [Pytest](https://docs.pytest.org/en/8.0.x/) and its associated libraries to help us with testing alot of of our application logic.
 
