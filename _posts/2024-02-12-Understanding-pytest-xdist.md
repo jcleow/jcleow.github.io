@@ -1,8 +1,9 @@
 ## Understanding pytest-xdist
 
+###Table of contents
 * TOC
 {:toc}
-### A. Preface
+#### A. Preface
 Over at `$work` we have been using alot of [Pytest](https://docs.pytest.org/en/8.0.x/) and its associated libraries to help us with testing alot of of our application logic.
 
 I have not had to fully deep dive into pytest and its associated plugins for the testing needed at $work. But recently, we also started exploring the usage of [Pytest-xdist](https://pytest-xdist.readthedocs.io/en/stable/) at `$work`, which allows tests to be run in parallel. With that, came a slew of flaky tests that required debugging.
@@ -11,7 +12,7 @@ In this post - I aim to consolidated my learnings about Pytest and Pytest-xdist 
 
 ---
 
-### B. An Introduction to Pytest-xdist
+#### B. An Introduction to Pytest-xdist
 >The pytest-xdist plugin extends pytest with new test execution modes, with the most common usage being distributing tests across multiple CPUs to speed up test execution:
 
 As the docs suggest, the library helps to distribute and run your suite of tests concurrently.
