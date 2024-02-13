@@ -115,7 +115,7 @@ For example, we can take a look at the the `loadgroup` implementation. Specifica
 Such a node id might look like this `tests/test.py::TestGroup1::test_get_now_only@group1` given the example below.
 
 
-```py
+```python
 # investigation/tests/test.py
 
 import pytest
@@ -169,7 +169,7 @@ As seen from the previous section, the scoping mechanism can be customised by sp
 
 Suppose you wish to devise your own custom `split_scope` methodology specific to your repo, you can modify `conftest.py` in this manner to modify the scoping functionality.
 
-```py
+```python
 import os
 import logging
 from xdist.scheduler.loadscope import LoadScopeScheduling
