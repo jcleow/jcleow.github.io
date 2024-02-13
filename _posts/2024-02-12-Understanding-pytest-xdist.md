@@ -54,25 +54,8 @@ In `pytest-xdist`, the process generally goes like this:
     * Each of these processes are also known as a worker or node.
 <br/>
 
-```mermaid
-graph TD;
-    c[Controller]
-    w1[WorkerNode1]
-    w2[WorkerNode2]
-    w3[WorkerNode3]
-    g[Gateway]
 
-    style c fill:#c0c0c0,stroke:#333,stroke-width:1px
-    style w1 fill:#30D5C8,stroke:#333,stroke-width:1px
-    style w2 fill:#30D5C8,stroke:#333,stroke-width:1px
-    style w3 fill:#30D5C8,stroke:#333,stroke-width:1px
-
-    style g fill:#FFD580,stroke:#333,stroke-width:1px
-
-    c-.connects via.->g<-.collects all tests.->w1
-    c-.connects via.->g<-.collects all tests.->w2
-    c-.connects via.->g<-.collects all tests.->w3
-```
+![Pytest Workers](/docs/assets/2024-02-12-pytest-workers.png)
 
 4. Each worker performs a full test collection of all the tests available and sends these tests or otherwise their `node ids` back to the `Controller`.
 <br/>
@@ -87,21 +70,8 @@ graph TD;
 What is interesting here is learning about `pytest-xdist` extending pytest's existing hooks with its own custom implementation. We exploreo more of this in the next section.
 
 But first here is a diagram that illustrates the process of from test collection to test execution and reporting.
-```mermaid
-sequenceDiagram
-    participant Controller
-    participant Gateway
-    participant Node1
 
-    Controller->>Gateway: establishes connection
-    Gateway->>Node1: creates a new Python interpreter process
-    Node1->>Node1: collects tests
-    Node1->>Controller: return collected tests
-    Controller->>Controller: checks all the tests collected from all workers
-    Controller->>Node1: assigns subset of all tests to node to process
-    Node1->>Node1: runs tests on assigned node_ids i.e runtest_protocol
-    Node1->>Controller: returns tests results
-```
+![Pytest Workers](/docs/assets/2024-02-12-pytest-worker-flow.png)
 
 A more complete process of how it works can also be found [here](https://github.com/pytest-dev/pytest-xdist/blob/95b309e980796a261045d770f69c016ca741473d/docs/how-it-works.rst)
 
@@ -113,24 +83,26 @@ A more complete process of how it works can also be found [here](https://github.
 * In `loadscope`, how it works is that for each test(or node id as discussed in section C) flows through the [_split_scope](https://github.com/pytest-dev/pytest-xdist/blob/8d57046bd465b559f45f66c2406e5acedb1c1c21/src/xdist/scheduler/loadscope.py#L268-L290) function.
 
 For convenience this is the documentation:
->       Determine the scope (grouping) of a nodeid.
-        There are usually 3 cases for a nodeid::
-            example/loadsuite/test/test_beta.py::test_beta0
-            example/loadsuite/test/test_delta.py::Delta1::test_delta0
-            example/loadsuite/epsilon/__init__.py::epsilon.epsilon
+```
+Determine the scope (grouping) of a nodeid.
+    There are usually 3 cases for a nodeid::
+    example/loadsuite/test/test_beta.py::test_beta0
+    example/loadsuite/test/test_delta.py::Delta1::test_delta0
+    example/loadsuite/epsilon/__init__.py::epsilon.epsilon
 
-        #. Function in a test module.
-        #. Method of a class in a test module.
-        #. Doctest in a function in a package.
+    #. Function in a test module.
+    #. Method of a class in a test module.
+    #. Doctest in a function in a package.
 
-        This function will group tests with the scope determined by splitting
-        the first ``::`` from the right. That is, classes will be grouped in a
-        single work unit, and functions from a test module will be grouped by
-        their module. In the above example, scopes will be::
+    This function will group tests with the scope determined by splitting
+    the first ``::`` from the right. That is, classes will be grouped in a
+    single work unit, and functions from a test module will be grouped by
+    their module. In the above example, scopes will be::
 
-            example/loadsuite/test/test_beta.py
-            example/loadsuite/test/test_delta.py::Delta1
-            example/loadsuite/epsilon/__init__.py
+    example/loadsuite/test/test_beta.py
+    example/loadsuite/test/test_delta.py::Delta1
+    example/loadsuite/epsilon/__init__.py
+```
 
 
 To rephrase, what it does is that `_split_scope` determines the scope via the first `::` separator of the node ids. I.e the scope is created from a file/module -> class to function level.
@@ -314,3 +286,43 @@ Here are my takeaways after spending alot of time trying to understand `pytest-x
 
 N.B
 \* Whether the scoped tests are indeed assigned on a round robin fashion or based on FIFO manner or some other mechanism needs more investigation.
+
+
+
+<!-- ```mermaid
+graph TD;
+    c[Controller]
+    w1[WorkerNode1]
+    w2[WorkerNode2]
+    w3[WorkerNode3]
+    g[Gateway]
+
+    style c fill:#c0c0c0,stroke:#333,stroke-width:1px
+    style w1 fill:#30D5C8,stroke:#333,stroke-width:1px
+    style w2 fill:#30D5C8,stroke:#333,stroke-width:1px
+    style w3 fill:#30D5C8,stroke:#333,stroke-width:1px
+
+    style g fill:#FFD580,stroke:#333,stroke-width:1px
+
+    c-.connects via.->g<-.collects all tests.->w1
+    c-.connects via.->g<-.collects all tests.->w2
+    c-.connects via.->g<-.collects all tests.->w3
+``` -->
+
+<!--```mermaid
+sequenceDiagram
+    participant Controller
+    participant Gateway
+    participant Node1
+
+    Controller->>Gateway: establishes connection
+    Gateway->>Node1: creates a new Python interpreter process
+    Node1->>Node1: collects tests
+    Node1->>Controller: return collected tests
+    Controller->>Controller: checks all the tests collected from all workers
+    Controller->>Node1: assigns subset of all tests to node to process
+    Node1->>Node1: runs tests on assigned node_ids i.e runtest_protocol
+    Node1->>Controller: returns tests results
+``` -->
+
+^ Just found out that GH pages doesnt support mermaid diagrams at moment, have to live with some low fidelity screenshots for now.
