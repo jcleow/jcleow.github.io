@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include header.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+    <!-- Theme Switcher -->
+    <button class="theme-switcher" id="theme-switcher" aria-label="Switch color theme">&#9681;</button>
+    <span class="theme-switcher-tooltip" id="theme-tooltip">Museum</span>
+
+    <script>
+    (function() {
+      var themes = [
+        { id: 'museum', label: 'Museum' },
+        { id: 'ocean',  label: 'Deep Ocean' },
+        { id: 'ember',  label: 'Warm Ember' },
+        { id: 'forest', label: 'Forest Night' },
+        { id: 'violet', label: 'Midnight Violet' }
+      ];
+
+      var current = 0;
+      var saved = localStorage.getItem('blog-theme');
+      if (saved) {
+        for (var i = 0; i < themes.length; i++) {
+          if (themes[i].id === saved) { current = i; break; }
+        }
+      }
+
+      var btn = document.getElementById('theme-switcher');
+      var tooltip = document.getElementById('theme-tooltip');
+      tooltip.textContent = themes[current].label;
+
+      btn.addEventListener('click', function() {
+        current = (current + 1) % themes.length;
+        var theme = themes[current];
+        if (theme.id === 'museum') {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.removeItem('blog-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme.id);
+          localStorage.setItem('blog-theme', theme.id);
+        }
+        tooltip.textContent = theme.label;
+        tooltip.style.opacity = '1';
+        setTimeout(function() { tooltip.style.opacity = '0'; }, 1200);
+      });
+    })();
+    </script>
+
+    {%- if page.mermaid -%}
+      {%- include footer-scripts.html -%}
+    {%- endif -%}
+
+  </body>
+
+</html>

@@ -1,1 +1,5 @@
-Some musings and learnings about software engineering stuff
+---
+layout: home
+title: ""
+subtitle: "A space for documenting software engineering learnings and explorations."
+---
