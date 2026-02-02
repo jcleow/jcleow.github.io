@@ -30,89 +30,75 @@
   --border: #1c2333;
 }
 
-/* --- Theme: Warm Ember --- */
-[data-theme="ember"] {
-  --bg-primary: #1a1210;
-  --bg-elevated: #241c18;
-  --text-primary: #d9cfc0;
-  --text-secondary: #9a8e80;
-  --text-tertiary: #6a5f54;
-  --accent: #c87941;
-  --accent-hover: #da9260;
-  --border: #302520;
+/* --- Theme Dropdown --- */
+.theme-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 1rem;
+  vertical-align: middle;
 }
 
-/* --- Theme: Forest Night --- */
-[data-theme="forest"] {
-  --bg-primary: #0b1210;
-  --bg-elevated: #151e1a;
-  --text-primary: #c4cdc0;
-  --text-secondary: #889882;
-  --text-tertiary: #566654;
-  --accent: #8a9a6c;
-  --accent-hover: #a3b488;
-  --border: #1e2a24;
-}
-
-/* --- Theme: Midnight Violet --- */
-[data-theme="violet"] {
-  --bg-primary: #110f18;
-  --bg-elevated: #1a1724;
-  --text-primary: #d0cdd8;
-  --text-secondary: #8a8696;
-  --text-tertiary: #5c586a;
-  --accent: #9b8ec4;
-  --accent-hover: #b5aad6;
-  --border: #252232;
-}
-
-/* --- Theme Switcher Button --- */
-.theme-switcher {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 1000;
-  background-color: var(--bg-elevated);
+.theme-toggle {
+  background: none;
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   cursor: pointer;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+  padding: 0;
+  line-height: 1;
 }
 
-.theme-switcher:hover {
+.theme-toggle:hover {
   color: var(--accent);
   border-color: var(--accent);
-  transform: scale(1.1);
 }
 
-.theme-switcher-tooltip {
-  position: fixed;
-  bottom: 4rem;
-  right: 1.5rem;
-  z-index: 1000;
+.theme-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
   background-color: var(--bg-elevated);
   border: 1px solid var(--border);
-  color: var(--text-primary);
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 4px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  white-space: nowrap;
+  border-radius: 6px;
+  padding: 0.3rem 0;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 1000;
 }
 
-.theme-switcher:hover + .theme-switcher-tooltip {
-  opacity: 1;
+.theme-menu.open {
+  display: block;
+}
+
+.theme-option {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  text-align: left;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.theme-option:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+.theme-option.active {
+  color: var(--accent);
 }
 
 /* --- Base --- */

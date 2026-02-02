@@ -15,45 +15,46 @@
 
     {%- include footer.html -%}
 
-    <!-- Theme Switcher -->
-    <button class="theme-switcher" id="theme-switcher" aria-label="Switch color theme">&#9681;</button>
-    <span class="theme-switcher-tooltip" id="theme-tooltip">Museum</span>
-
     <script>
     (function() {
-      var themes = [
-        { id: 'museum', label: 'Museum' },
-        { id: 'ocean',  label: 'Deep Ocean' },
-        { id: 'ember',  label: 'Warm Ember' },
-        { id: 'forest', label: 'Forest Night' },
-        { id: 'violet', label: 'Midnight Violet' }
-      ];
+      var toggle = document.getElementById('theme-toggle');
+      var menu = document.getElementById('theme-menu');
+      var options = document.querySelectorAll('.theme-option');
+      if (!toggle || !menu) return;
 
-      var current = 0;
-      var saved = localStorage.getItem('blog-theme');
-      if (saved) {
-        for (var i = 0; i < themes.length; i++) {
-          if (themes[i].id === saved) { current = i; break; }
-        }
+      var saved = localStorage.getItem('blog-theme') || 'museum';
+
+      function setActive() {
+        options.forEach(function(opt) {
+          opt.classList.toggle('active', opt.getAttribute('data-theme') === saved);
+        });
       }
+      setActive();
 
-      var btn = document.getElementById('theme-switcher');
-      var tooltip = document.getElementById('theme-tooltip');
-      tooltip.textContent = themes[current].label;
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menu.classList.toggle('open');
+      });
 
-      btn.addEventListener('click', function() {
-        current = (current + 1) % themes.length;
-        var theme = themes[current];
-        if (theme.id === 'museum') {
-          document.documentElement.removeAttribute('data-theme');
-          localStorage.removeItem('blog-theme');
-        } else {
-          document.documentElement.setAttribute('data-theme', theme.id);
-          localStorage.setItem('blog-theme', theme.id);
-        }
-        tooltip.textContent = theme.label;
-        tooltip.style.opacity = '1';
-        setTimeout(function() { tooltip.style.opacity = '0'; }, 1200);
+      options.forEach(function(opt) {
+        opt.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var theme = opt.getAttribute('data-theme');
+          saved = theme;
+          if (theme === 'museum') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.removeItem('blog-theme');
+          } else {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('blog-theme', theme);
+          }
+          setActive();
+          menu.classList.remove('open');
+        });
+      });
+
+      document.addEventListener('click', function() {
+        menu.classList.remove('open');
       });
     })();
     </script>
