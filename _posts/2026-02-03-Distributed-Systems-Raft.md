@@ -6,7 +6,7 @@ My main materials of reference comes from the famous [MIT Distributed Systems](h
 
 As part of that process, I have started attempting the labs and reading the papers hope to document down some of my key learnings, as well as confusion points that I may have with respect to the things that I've learnt.
 
-I envision this to be a multi-part series
+I envision this to be a multi-part series and will strive to log down points that were interesting or difficult for me to understand, so as to serve as a future reference.
 
 # Overview
 
@@ -20,11 +20,11 @@ To this end, Raft is one of such techniques that aims to achieve consensus algor
 ## What is Paxos?
 Paxos is the predecessor to Raft, in which it is also a consensus algorithm. It is famously known to be difficult to grok, which therefore spurred the invention of new conesus algorithms like Raft.
 
-## Applications of Raft?
-
+## Applications of Raft
+TBC
 
 ## Raft Mechanisms
-
+TBC
 
 ## Other References
 * (Raft Extended paper)[https://pdos.csail.mit.edu/6.824/papers/raft-extended.pdf]
