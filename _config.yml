@@ -4,7 +4,7 @@ description: "Documenting my software engineering journey" # This will show up i
 
 # Email / Social media user names used by the minima theme:
 # All of these are optional and can be removed or commented out
-email: "jitcorn@gmail.com"
+email: "jitcorn.leow@gmail.com"
 # twitter_username: "twitteruser"
 github_username: "jcleow"
 linkedin_username: "jitcorn"
@@ -38,6 +38,8 @@ comments_repo: jcleow/jcleow.github.io
 defaults:
   - scope:
       path: ""
-      type: post
+      type: posts
     values:
+      layout: post
+      mermaid: true
       tags: Other
