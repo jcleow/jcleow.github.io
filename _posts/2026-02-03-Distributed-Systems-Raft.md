@@ -1,3 +1,8 @@
+---
+title: "Understanding Raft"
+published: false
+---
+
 # Understanding Raft
 
 I have recently taken on a personal task of delving deeper into understanding distributed systems via a practical approach. 
